@@ -8,17 +8,49 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var globalManager = GlobalManager()
-    @State var testToDouble = 0.00
     
-    var test: Double {
-        guard let test = globalManager.formatDatas.formatPrice(dataInString: "50%") else { return 0.00 }
-        return test
-    }
+    var globalManager = GlobalManager()
+    @State var initialPrice = "00,00 €"
+    let title = "Prix Initial"
+
     var body: some View {
         
-        Text("\(test)")
-            .padding()
+        let discounts: [Discount] = globalManager.generateListDiscount()
+        
+            ScrollView(.horizontal){
+                LazyHStack(spacing: 20){
+                    ForEach(discounts, id:\.id) {discount in
+                        DiscountView(discount: discount)
+                    }
+                }.padding(.all, 10)
+            }
+        Divider()
+        
+//        VStack{
+//            Text("My Best Deal")
+//                .font(.largeTitle)
+//            Spacer()
+//            TextField(title, text: $initialPrice)
+//                .frame(width: 300.0)
+//                .textFieldStyle(RoundedBorderTextFieldStyle())
+//            Spacer()
+//        }
+    }
+}
+
+ struct DiscountView: View {
+    let discount: Discount
+     var width: CGFloat = 70
+    var body: some View {
+        VStack{
+            Text(discount.discoutLabel)
+                .scaledToFit()
+                .frame(width: width)
+                .overlay(
+                    Circle().stroke(Color.red, style: StrokeStyle(lineWidth: 2))
+                        .frame(width: width + 5, height: width + 5)
+                )
+        }
     }
 }
 

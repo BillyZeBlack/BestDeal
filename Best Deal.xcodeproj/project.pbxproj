@@ -17,6 +17,7 @@
 		9F1FEBD72837F68E004AB6EB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBD62837F68E004AB6EB /* Category.swift */; };
 		9F1FEBD92837F6D8004AB6EB /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBD82837F6D8004AB6EB /* CategoryManager.swift */; };
 		9F1FEBDC2837F8A1004AB6EB /* FormatDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBDB2837F8A1004AB6EB /* FormatDatas.swift */; };
+		9F1FEBDE283844C7004AB6EB /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBDD283844C7004AB6EB /* Discount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		9F1FEBD62837F68E004AB6EB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		9F1FEBD82837F6D8004AB6EB /* CategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
 		9F1FEBDB2837F8A1004AB6EB /* FormatDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatDatas.swift; sourceTree = "<group>"; };
+		9F1FEBDD283844C7004AB6EB /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			children = (
 				9F1FEBCB2837EF77004AB6EB /* Porduct.swift */,
 				9F1FEBD62837F68E004AB6EB /* Category.swift */,
+				9F1FEBDD283844C7004AB6EB /* Discount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			files = (
 				9F1FEBBF2837EF17004AB6EB /* ContentView.swift in Sources */,
 				9F1FEBD92837F6D8004AB6EB /* CategoryManager.swift in Sources */,
+				9F1FEBDE283844C7004AB6EB /* Discount.swift in Sources */,
 				9F1FEBDC2837F8A1004AB6EB /* FormatDatas.swift in Sources */,
 				9F1FEBD32837F062004AB6EB /* ProductManager.swift in Sources */,
 				9F1FEBD12837F042004AB6EB /* GlobalManager.swift in Sources */,
