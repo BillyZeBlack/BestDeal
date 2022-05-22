@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Product {
+struct Product: Identifiable {
+    var id: Int
     var name: String
     var initialPrice: Double
     var finalPrice: Double
