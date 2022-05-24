@@ -12,7 +12,6 @@ struct ListView: View {
     @Binding var productsList: [Product]
     var body: some View {
         List{
-//            globalManager.productManager.productsList
             ForEach(productsList, id:\.id) {product in
                 HStack{
                     Text("\(product.name) - \(product.discount)% ")
@@ -34,6 +33,12 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView(productsList: .constant([]))
+        Group {
+            ListView(productsList: .constant([]))
+                .previewInterfaceOrientation(.portrait)
+            ListView(productsList: .constant([]))
+                .previewLayout(.sizeThatFits)
+                .previewInterfaceOrientation(.portrait)
+        }
     }
 }
