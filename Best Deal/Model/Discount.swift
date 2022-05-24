@@ -9,6 +9,6 @@ import Foundation
 
 struct Discount: Identifiable {
     var id: Int
-    var discoutLabel: String
+    var discountLabel: String
 }
  

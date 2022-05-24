@@ -19,6 +19,7 @@
 		9F1FEBDC2837F8A1004AB6EB /* FormatDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBDB2837F8A1004AB6EB /* FormatDatas.swift */; };
 		9F1FEBDE283844C7004AB6EB /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FEBDD283844C7004AB6EB /* Discount.swift */; };
 		9F32576B283AB0430040B2C7 /* DiscountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32576A283AB0430040B2C7 /* DiscountManager.swift */; };
+		9F3FDF88283CCE290060C217 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FDF87283CCE290060C217 /* ListView.swift */; };
 		9FCABFF8283941EE00E6CECD /* DiscountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCABFF7283941EE00E6CECD /* DiscountView.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		9F1FEBDB2837F8A1004AB6EB /* FormatDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatDatas.swift; sourceTree = "<group>"; };
 		9F1FEBDD283844C7004AB6EB /* Discount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		9F32576A283AB0430040B2C7 /* DiscountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountManager.swift; sourceTree = "<group>"; };
+		9F3FDF87283CCE290060C217 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		9FCABFF7283941EE00E6CECD /* DiscountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 			children = (
 				9F1FEBBE2837EF17004AB6EB /* ContentView.swift */,
 				9FCABFF7283941EE00E6CECD /* DiscountView.swift */,
+				9F3FDF87283CCE290060C217 /* ListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				9F1FEBDC2837F8A1004AB6EB /* FormatDatas.swift in Sources */,
 				9F1FEBD32837F062004AB6EB /* ProductManager.swift in Sources */,
 				9F1FEBD12837F042004AB6EB /* GlobalManager.swift in Sources */,
+				9F3FDF88283CCE290060C217 /* ListView.swift in Sources */,
 				9F1FEBCC2837EF77004AB6EB /* Product.swift in Sources */,
 				9F1FEBBD2837EF17004AB6EB /* Best_DealApp.swift in Sources */,
 				9F1FEBD72837F68E004AB6EB /* Category.swift in Sources */,

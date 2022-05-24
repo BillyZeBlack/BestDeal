@@ -15,7 +15,7 @@ struct DiscountView: View {
     
    var body: some View {
        VStack{
-           Text(discount.discoutLabel)
+           Text(discount.discountLabel)
                .scaledToFit()
                .frame(width: width)
                .overlay(
@@ -28,6 +28,6 @@ struct DiscountView: View {
 
 struct DiscountView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscountView(discount: Discount(id: 1, discoutLabel: "25"))
+        DiscountView(discount: Discount(id: 1, discountLabel: "25"))
     }
 }
