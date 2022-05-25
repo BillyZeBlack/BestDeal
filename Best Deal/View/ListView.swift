@@ -9,36 +9,42 @@ import SwiftUI
 
 struct ListView: View {
     var globalManager: GlobalManager!
-    @Binding var productsList: [Product]
+    
+//    @Binding var productsList: [Product]
+    @Binding var oneProductIsAdded: Bool
+    
     var body: some View {
         List{
-            ForEach(productsList, id:\.id) {product in
+            ForEach(globalManager.productManager.productsList, id:\.id) {product in
                 HStack{
-                    Text("\(product.name) - \(product.discount)% ")
+                    Text("\(product.initialPrice) - \(product.discount)% ")
                     Spacer()
                     Text("\(product.finalPrice)€")
                     Image(systemName: "tag.fill")
                 }
             }
-        }.refreshable{
+        }.onChange(of: oneProductIsAdded) { _ in
             loadList()
         }
     }
     
     func loadList()
     {
-        productsList = globalManager.productManager.productsList
+//        productsList = globalManager.productManager.productsList
+        globalManager.productManager.productsList
+        oneProductIsAdded = false
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: .constant([]))
+//        productsList: .constant([]), 
+            ListView(oneProductIsAdded: .constant(false))
                 .previewInterfaceOrientation(.portrait)
-            ListView(productsList: .constant([]))
-                .previewLayout(.sizeThatFits)
-                .previewInterfaceOrientation(.portrait)
+//            ListView(productsList: .constant([]))
+//                .previewLayout(.sizeThatFits)
+//                .previewInterfaceOrientation(.portrait)
         }
     }
 }

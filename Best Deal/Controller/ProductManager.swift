@@ -32,7 +32,7 @@ class ProductManager: ObservableObject {
     
     func addProductIntoProductsList(product: Product)
     {
-        objectWillChange.send()
+//        objectWillChange.send()
         productsList.append(product)
     }
     
