@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     
@@ -20,12 +21,21 @@ struct ContentView: View {
     @State var initialPriceInDouble = 0.0
     
     @State var oneProductIsAdded = false
+    @State var totalCart = 0.00
 
     var body: some View {
         let discounts: [Discount] = globalManager.discountManager.generateListDiscount()
         VStack{
             Text("Titre").font(.largeTitle)
-            TextField(title, text: $initialPrice, prompt: Text("Entrez le prix initial"))
+            VStack {
+                TextField(title, text: $initialPrice, prompt: Text("Entrez le prix initial"))
+                    .keyboardType(.numberPad)
+                     //gérer la suppression
+                Rectangle()
+                    .frame(height: 1)
+            }.padding()
+            
+            
 
             //UICollectionView like
             ScrollView(.horizontal, showsIndicators: false){
@@ -35,49 +45,67 @@ struct ContentView: View {
                                 .onTapGesture {
                                     if discount.discountLabel == "..%"{
                                         //entrer une reduct perso
+                                    } else {
+                                        self.discount = formatDatas(dataInSting: discount.discountLabel)
+                                        initialPriceInDouble = formatDatas(dataInSting: initialPrice)
+                                        applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
                                     }
-                                    self.discount = formatDatas(dataInSting: discount.discountLabel)
-                                    initialPriceInDouble = formatDatas(dataInSting: initialPrice)
-                                    applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
+                                    hideKeyboard()
                             }
                         }
                     }.padding(.all, 10)
             }.frame( height: 100)
             
             VStack{
-                Text("\(finalPrice) €").font(.title3).padding()
+                if finalPrice == 0.0 && initialPrice == "" {
+                    Text("Nouveau Prix").font(.title3).padding()
+                }else {
+                    Text("\(roundeUpToTwoDecimal(value: finalPrice))€").font(.title3).padding()
+                }
+                
                 HStack{
                     Image(systemName: "cart.badge.plus")
-                    Button("J'achète") {
-                        //ajout des produit dans la liste
-                        // récupérer le %
-                        // récupérer le prix initial
-                        // récupérer le prix final
-                        // ajouter à la liste des produits
-                        let product = Product(name: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
-//                        let product1 = Product(id: 14, name: "test", initialPrice: 12.45, finalPrice: 3.00, discount: 10.00)
+                    Button("J'ACHETE") {
+                        hideKeyboard()
+                        if discount == 0.00 && initialPrice != ""{
+                            initialPriceInDouble = formatDatas(dataInSting: initialPrice)
+                            applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
+                        }
+                        
+                        let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
                         
                         addProductIntoProductsList(product: product)
-//                        addProductIntoProductsList(product: product1)
-                        
+                        totalCart = globalManager.productManager.totalChart()
                         oneProductIsAdded.toggle()
+                        initialPrice = ""
+                        finalPrice = 0.00
+                        discount = 0.00
                     }
                 }
             }
             
             HStack{
-                Text("\(globalManager.productManager.totalChart()) €").padding()
-                Image(systemName: "trash.circle.fill")
+                if totalCart == 0.00{
+                    Text("Total des achats").padding()
+                }else {
+                    Text("\(roundeUpToTwoDecimal(value: totalCart)) €").padding()
+                    Image(systemName: "trash.circle.fill").onTapGesture {
+                        //Supprimer l'ensemble de la liste & l'emplacement de la corbeille
+                    }
+                }
+                
             }
             
             Spacer()
             
             VStack{
-//                ListView(globalManager: globalManager, productsList: $globalManager.productManager.productsList, oneProductIsAdded: $oneProductIsAdded)
-                ListView(globalManager: globalManager, oneProductIsAdded: $oneProductIsAdded)
+                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: $oneProductIsAdded)
                 HStack{
-                    Text("Economie réalisée = ")
-                    Text("-\(globalManager.productManager.totalDiscount()) €")
+                    if 0 == globalManager.productManager.totalDiscount() {
+                        Text("Economies réalisées")
+                    }
+                    
+                    Text("\(roundeUpToTwoDecimal(value: globalManager.productManager.totalDiscount())) €")
                     Image(systemName: "cart.fill").onTapGesture {
                         //Aller vers la liste des achats classés par catégories
                     }
@@ -105,6 +133,19 @@ struct ContentView: View {
     {
         globalManager.productManager.addProductIntoProductsList(product: product)
     }
+    
+    private func roundeUpToTwoDecimal(value: Double)->String
+    {
+        var valueRounded = ""
+        
+        if value == 0.00 {
+            valueRounded = "0.00"
+        }else {
+            valueRounded = String(format: "%.2f", value)
+        }
+        
+        return valueRounded
+    }
 }
 
 //struct CustomScrollView: View{
@@ -128,6 +169,12 @@ struct ContentView: View {
 //        }.frame( height: 100)
 //    }
 //}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

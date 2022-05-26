@@ -10,16 +10,16 @@ import SwiftUI
 struct ListView: View {
     var globalManager: GlobalManager!
     
-//    @Binding var productsList: [Product]
+    @State var productsList: [Product]
     @Binding var oneProductIsAdded: Bool
     
-    var body: some View {
+    var body: some View { // gérer la suppression d'un élément
         List{
-            ForEach(globalManager.productManager.productsList, id:\.id) {product in
+            ForEach(productsList, id:\.id) {product in
                 HStack{
-                    Text("\(product.initialPrice) - \(product.discount)% ")
+                    Text("\(roundeUpToTwoDecimal(value: product.initialPrice))€ - \(roundeUpToTwoDecimal(value: product.discount))% ")
                     Spacer()
-                    Text("\(product.finalPrice)€")
+                    Text("\(roundeUpToTwoDecimal(value: product.finalPrice))€")
                     Image(systemName: "tag.fill")
                 }
             }
@@ -30,21 +30,29 @@ struct ListView: View {
     
     func loadList()
     {
-//        productsList = globalManager.productManager.productsList
-        globalManager.productManager.productsList
+        productsList = globalManager.productManager.productsList
         oneProductIsAdded = false
+    }
+    
+    private func roundeUpToTwoDecimal(value: Double)->String
+    {
+        var valueRounded = ""
+        
+        if value == 0.00 {
+            valueRounded = "0.00"
+        }else {
+            valueRounded = String(format: "%.2f", value)
+        }
+        
+        return valueRounded
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//        productsList: .constant([]), 
-            ListView(oneProductIsAdded: .constant(false))
+            ListView(productsList: [], oneProductIsAdded: .constant(false))
                 .previewInterfaceOrientation(.portrait)
-//            ListView(productsList: .constant([]))
-//                .previewLayout(.sizeThatFits)
-//                .previewInterfaceOrientation(.portrait)
         }
     }
 }

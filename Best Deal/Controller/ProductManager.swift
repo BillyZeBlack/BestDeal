@@ -48,6 +48,7 @@ class ProductManager: ObservableObject {
         for item in productsList {
             totalPrice += item.finalPrice
         }
+        
         return totalPrice
     }
     
@@ -61,6 +62,4 @@ class ProductManager: ObservableObject {
         
         return totalDiscount
     }
-    
-    
 }
