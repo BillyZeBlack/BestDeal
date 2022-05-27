@@ -16,11 +16,13 @@ struct ContentView: View {
     @State var finalPrice = 00.00
     @State var initialPrice = ""
     @State var validData = 00.00
+    @State var personalDiscount = ""
     
     @State var discount = 0.0
     @State var initialPriceInDouble = 0.0
     
     @State var oneProductIsAdded = false
+    @State var personalDiscountShowed = false
     @State var totalCart = 0.00
 
     var body: some View {
@@ -35,51 +37,79 @@ struct ContentView: View {
                     .frame(height: 1)
             }.padding()
             
-            
-
-            //UICollectionView like
-            ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 20){
-                        ForEach(discounts, id:\.id) {discount in
-                            DiscountView(discount: discount, globalManager: globalManager)
-                                .onTapGesture {
-                                    if discount.discountLabel == "..%"{
-                                        //entrer une reduct perso
-                                    } else {
-                                        self.discount = formatDatas(dataInSting: discount.discountLabel)
-                                        initialPriceInDouble = formatDatas(dataInSting: initialPrice)
-                                        applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
-                                    }
-                                    hideKeyboard()
-                            }
+            if personalDiscountShowed {
+                VStack{
+                    TextField(title, text: $personalDiscount, prompt: Text("Entrez le %"))
+                        .keyboardType(.numberPad)
+                    Rectangle()
+                        .frame(height: 1)
+                    Button ("Valider"){
+                        withAnimation {
+                            personalDiscountShowed.toggle()
                         }
-                    }.padding(.all, 10)
-            }.frame( height: 100)
-            
+                        hideKeyboard()
+                    }
+                }
+                .padding()
+                .transition(.slide)
+                .frame(width: 180, height: 100)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(.gray, lineWidth: 2)
+                )
+            } else {
+                HStack{
+                    //UICollectionView like
+                    ScrollView(.horizontal, showsIndicators: false){
+                            LazyHStack(spacing: 20){
+                                ForEach(discounts, id:\.id) {discount in
+                                    DiscountView(discount: discount, globalManager: globalManager)
+                                        .onTapGesture {
+                                            if discount.discountLabel == "..%"{
+                                                //entrer une reduct perso
+                                                withAnimation {
+                                                    personalDiscountShowed.toggle()
+                                                }
+                                            } else {
+                                                self.discount = formatDatas(dataInSting: discount.discountLabel)
+                                                initialPriceInDouble = formatDatas(dataInSting: initialPrice)
+                                                applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
+                                            }
+                                            hideKeyboard()
+                                    }
+                                }
+                            }.padding(.all, 10)
+                    }.frame( height: 100)
+                }.transition(.slide)
+            }
+             
             VStack{
-                if finalPrice == 0.0 && initialPrice == "" {
+                if initialPrice == "" || finalPrice == 0.0 && initialPrice == "" {
                     Text("Nouveau Prix").font(.title3).padding()
-                }else {
-                    Text("\(roundeUpToTwoDecimal(value: finalPrice))€").font(.title3).padding()
+                } else {
+                    if discount == 0 {
+                        Text("\(initialPrice)€").font(.title3).padding()
+                    }else {
+                        Text("\(roundeUpToTwoDecimal(value: finalPrice))€").font(.title3).padding()
+                    }
+                   
                 }
                 
                 HStack{
                     Image(systemName: "cart.badge.plus")
                     Button("J'ACHETE") {
                         hideKeyboard()
-                        if discount == 0.00 && initialPrice != ""{
-                            initialPriceInDouble = formatDatas(dataInSting: initialPrice)
-                            applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
+                        if  initialPrice != ""{
+                            addProductIntoProductsList()
+                            
+                            oneProductIsAdded.toggle()
+                            initialPrice = ""
+                            finalPrice = 0.00
+                            discount = 0.00
+                            initialPriceInDouble = 0.00
+                        } else {
+                            
                         }
-                        
-                        let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
-                        
-                        addProductIntoProductsList(product: product)
-                        totalCart = globalManager.productManager.totalChart()
-                        oneProductIsAdded.toggle()
-                        initialPrice = ""
-                        finalPrice = 0.00
-                        discount = 0.00
                     }
                 }
             }
@@ -88,18 +118,21 @@ struct ContentView: View {
                 if totalCart == 0.00{
                     Text("Total des achats").padding()
                 }else {
-                    Text("\(roundeUpToTwoDecimal(value: totalCart)) €").padding()
-                    Image(systemName: "trash.circle.fill").onTapGesture {
-                        //Supprimer l'ensemble de la liste & l'emplacement de la corbeille
+                    HStack{
+                        Text("\(roundeUpToTwoDecimal(value: totalCart)) €")
+                            .padding()
+                        Image(systemName: "trash.circle.fill")
+                            .onTapGesture {
+                            //Supprimer l'ensemble de la liste & l'emplacement de la corbeille
+                        }
                     }
                 }
-                
             }
             
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: $oneProductIsAdded)
+                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: $oneProductIsAdded).listRowBackground(Color.clear)
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
@@ -129,9 +162,16 @@ struct ContentView: View {
         finalPrice = globalManager.productManager.applyDiscountOnInitialPrice(initialPrice: initialPrice, discount: discount)
     }
     
-    private func addProductIntoProductsList(product: Product)
+    private func addProductIntoProductsList()
     {
+        initialPriceInDouble = formatDatas(dataInSting: initialPrice)
+        applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
+        
+        let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
+        
         globalManager.productManager.addProductIntoProductsList(product: product)
+        
+        totalCart = globalManager.productManager.totalChart()
     }
     
     private func roundeUpToTwoDecimal(value: Double)->String
@@ -147,28 +187,6 @@ struct ContentView: View {
         return valueRounded
     }
 }
-
-//struct CustomScrollView: View{
-//    var globalManager: GlobalManager!
-//    let discounts: [Discount] = globalManager.discountManager.generateListDiscount()
-//    var body: some View {
-//        ScrollView(.horizontal, showsIndicators: false){
-//                LazyHStack(spacing: 20){
-//                    ForEach(discounts, id:\.id) {discount in
-//                        DiscountView(discount: discount, globalManager: globalManager)
-//                            .onTapGesture {
-//                                if discount.discountLabel == "..%"{
-//                                    //entrer une reduct perso
-//                                }
-//                                self.discount = formatDatas(dataInSting: discount.discountLabel)
-//                                initialPriceInDouble = formatDatas(dataInSting: initialPrice)
-//                                applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
-//                        }
-//                    }
-//                }.padding(.all, 10)
-//        }.frame( height: 100)
-//    }
-//}
 
 extension View {
     func hideKeyboard() {

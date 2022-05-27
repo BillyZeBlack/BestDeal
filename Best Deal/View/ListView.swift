@@ -26,6 +26,7 @@ struct ListView: View {
         }.onChange(of: oneProductIsAdded) { _ in
             loadList()
         }
+        
     }
     
     func loadList()
