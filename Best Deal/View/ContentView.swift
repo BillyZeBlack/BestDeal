@@ -249,7 +249,7 @@ struct ContentView: View {
     }
     
     private func initialaseDatas()
-    {
+    {   
         globalManager.productManager.oneProductIsAdded.toggle()
         initialPrice = ""
         finalPrice = 0.00
