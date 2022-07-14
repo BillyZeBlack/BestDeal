@@ -11,9 +11,10 @@ struct ListView: View {
     var globalManager: GlobalManager!
     
     @State var productsList: [Product]
-    @Binding var oneProductIsAdded: Bool
     
-    var body: some View { // gérer la suppression d'un élément
+    @State var oneProductIsAdded: Bool
+    
+    var body: some View { // gérer la suppression d'un élément //////
         List{
             ForEach(productsList, id:\.id) {product in
                 HStack{
@@ -22,17 +23,10 @@ struct ListView: View {
                     Text("\(roundeUpToTwoDecimal(value: product.finalPrice))€")
                     Image(systemName: "tag.fill")
                 }
+            }.onDelete(perform: globalManager.productManager.removeProductFromProductsList)
+        }.onChange(of: globalManager.productManager.oneProductIsAdded) { _ in
+            productsList = globalManager.productManager.loadList()
             }
-        }.onChange(of: oneProductIsAdded) { _ in
-            loadList()
-        }
-        
-    }
-    
-    func loadList()
-    {
-        productsList = globalManager.productManager.productsList
-        oneProductIsAdded = false
     }
     
     private func roundeUpToTwoDecimal(value: Double)->String
@@ -52,7 +46,7 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: [], oneProductIsAdded: .constant(false))
+            ListView(productsList: [], oneProductIsAdded: false)
                 .previewInterfaceOrientation(.portrait)
         }
     }

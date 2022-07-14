@@ -10,20 +10,9 @@ import SwiftUI
 
 class ProductManager: ObservableObject {
     
-    @Published var productsList: [Product] = [
-//        Product(id: 1, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 2, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 3, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 4, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 5, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 6, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 7, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 8, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 9, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 10, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 11, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00),
-//        Product(id: 12, name: "pdt 1", initialPrice: 10.00, finalPrice: 5.0, discount: 50.00)
-    ]
+    @Published var productsList = [Product]()
+    var oneProductIsAdded = false
+    var listView : ListView!
     
     func applyDiscountOnInitialPrice(initialPrice: Double, discount: Double)->Double
     {
@@ -36,9 +25,12 @@ class ProductManager: ObservableObject {
         productsList.append(product)
     }
     
-    func removeProductFromProductsList()->[Product]
+    func removeProductFromProductsList(at offsets: IndexSet)
     {
-        return []
+//        objectWillChange.send()
+        productsList.remove(atOffsets: offsets)
+        oneProductIsAdded = true
+        productsList = loadList()
     }
     
     func totalChart()->Double
@@ -61,5 +53,11 @@ class ProductManager: ObservableObject {
         }
         
         return totalDiscount
+    }
+    
+    func loadList()->[Product]
+    {
+        oneProductIsAdded = false
+        return productsList
     }
 }

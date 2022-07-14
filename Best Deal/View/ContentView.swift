@@ -15,24 +15,31 @@ struct ContentView: View {
     
     @State var finalPrice = 00.00
     @State var initialPrice = ""
+    @State var initialPriceInDouble = 0.0
     @State var validData = 00.00
     @State var personalDiscount = ""
-    
     @State var discount = 0.0
-    @State var initialPriceInDouble = 0.0
-    
-    @State var oneProductIsAdded = false
-    @State var personalDiscountShowed = false
     @State var totalCart = 0.00
+    @State var maximumAmount = ""
+    @State var maximumAmountInDouble = 00.00
+    
+    @State var personalDiscountShowed = false
+    @State var showAlert = false
+    @State var maximumAmountSet = false
+    @State var maximunAmountisHit = false
+    
+    @State var alertCase: AlertCase = .initialPriceIsEmpty
 
     var body: some View {
         let discounts: [Discount] = globalManager.discountManager.generateListDiscount()
+        let oneProductIsAdded = globalManager.productManager.oneProductIsAdded
         VStack{
             Text("Titre").font(.largeTitle)
             VStack {
                 TextField(title, text: $initialPrice, prompt: Text("Entrez le prix initial"))
-                    .keyboardType(.numberPad)
-                     //gérer la suppression
+                    .modifier(TextFieldClearButton(text: $initialPrice))
+                    .keyboardType(.decimalPad)
+                
                 Rectangle()
                     .frame(height: 1)
             }.padding()
@@ -40,12 +47,17 @@ struct ContentView: View {
             if personalDiscountShowed {
                 VStack{
                     TextField(title, text: $personalDiscount, prompt: Text("Entrez le %"))
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
+                        .modifier(TextFieldClearButton(text: $initialPrice))
                     Rectangle()
                         .frame(height: 1)
                     Button ("Valider"){
+                        discount = formatDatas(dataInSting: personalDiscount)
+                        initialPriceInDouble = formatDatas(dataInSting: initialPrice)
+                        applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
                         withAnimation {
                             personalDiscountShowed.toggle()
+                            personalDiscount = ""
                         }
                         hideKeyboard()
                     }
@@ -62,16 +74,15 @@ struct ContentView: View {
                     //UICollectionView like
                     ScrollView(.horizontal, showsIndicators: false){
                             LazyHStack(spacing: 20){
-                                ForEach(discounts, id:\.id) {discount in
-                                    DiscountView(discount: discount, globalManager: globalManager)
+                                ForEach(discounts, id:\.id) {item in
+                                    DiscountView(discount: item, globalManager: globalManager)
                                         .onTapGesture {
-                                            if discount.discountLabel == "..%"{
-                                                //entrer une reduct perso
+                                            if item.discountLabel == "..%"{
                                                 withAnimation {
                                                     personalDiscountShowed.toggle()
                                                 }
                                             } else {
-                                                self.discount = formatDatas(dataInSting: discount.discountLabel)
+                                                self.discount = formatDatas(dataInSting: item.discountLabel)
                                                 initialPriceInDouble = formatDatas(dataInSting: initialPrice)
                                                 applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: self.discount)
                                             }
@@ -100,16 +111,20 @@ struct ContentView: View {
                     Button("J'ACHETE") {
                         hideKeyboard()
                         if  initialPrice != ""{
-                            addProductIntoProductsList()
-                            
-                            oneProductIsAdded.toggle()
-                            initialPrice = ""
-                            finalPrice = 0.00
-                            discount = 0.00
-                            initialPriceInDouble = 0.00
+                            if(addProductIntoProductsList()){
+                                initialaseDatas()
+                            }
                         } else {
-                            
+                            showAlert = true
+                            alertCase = .initialPriceIsEmpty
                         }
+                    }
+                }.alert(isPresented: $showAlert ) {
+                    switch alertCase {
+                    case .initialPriceIsNotValid:
+                        return Alert(title: Text("Erreur"), message: Text("Veuillez vérifier le prix saisi."))
+                    case .initialPriceIsEmpty:
+                        return Alert(title: Text("Information"), message: Text("Veuillez saisir un prix de départ."))
                     }
                 }
             }
@@ -119,20 +134,56 @@ struct ContentView: View {
                     Text("Total des achats").padding()
                 }else {
                     HStack{
-                        Text("\(roundeUpToTwoDecimal(value: totalCart)) €")
-                            .padding()
+                        if maximunAmountisHit {
+                            Text("\(roundeUpToTwoDecimal(value: totalCart)) €")
+                                .font(.headline).bold().foregroundColor(.red)
+                                .padding()
+                        } else {
+                            Text("\(roundeUpToTwoDecimal(value: totalCart)) €")
+                                .font(.headline).bold()
+                                .padding()
+                        }
                         Image(systemName: "trash.circle.fill")
                             .onTapGesture {
                             //Supprimer l'ensemble de la liste & l'emplacement de la corbeille
                         }
                     }
                 }
+                Image(systemName: "thermometer")
+                    .onTapGesture {
+                        withAnimation {
+                            maximumAmountSet.toggle()
+                        }
+                    }
+                if maximumAmountSet {
+                    VStack{
+                        TextField(title, text: $maximumAmount, prompt: Text("Montant maximum"))
+                            .keyboardType(.decimalPad)
+                            .modifier(TextFieldClearButton(text: $maximumAmount))
+                        Rectangle()
+                            .frame(height: 1)
+                        Button ("Valider"){
+                            maximumAmountInDouble = formatDatas(dataInSting: maximumAmount)
+                            withAnimation {
+                                maximumAmountSet.toggle()
+                            }
+                            hideKeyboard()
+                        }
+                    }
+                    .padding()
+                    .transition(.slide)
+                    .frame(width: 180, height: 100)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(.gray, lineWidth: 2)
+                    )
+                }
             }
             
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: $oneProductIsAdded).listRowBackground(Color.clear)
+                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded).listRowBackground(Color.white)//$oneProductIsAdded
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
@@ -162,16 +213,26 @@ struct ContentView: View {
         finalPrice = globalManager.productManager.applyDiscountOnInitialPrice(initialPrice: initialPrice, discount: discount)
     }
     
-    private func addProductIntoProductsList()
+    private func addProductIntoProductsList()->Bool
     {
         initialPriceInDouble = formatDatas(dataInSting: initialPrice)
-        applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
-        
-        let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
-        
-        globalManager.productManager.addProductIntoProductsList(product: product)
-        
-        totalCart = globalManager.productManager.totalChart()
+        if initialPriceInDouble != 00.00 {
+            
+            applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
+            
+            let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
+            
+            globalManager.productManager.addProductIntoProductsList(product: product)
+            
+            totalCart = globalManager.productManager.totalChart()
+            maximunAmountisHit = checkIfMaxAmountIsHit()
+            showAlert = false
+            return true
+        }else {
+            showAlert = true
+            alertCase = .initialPriceIsNotValid
+            return false
+        }
     }
     
     private func roundeUpToTwoDecimal(value: Double)->String
@@ -186,6 +247,27 @@ struct ContentView: View {
         
         return valueRounded
     }
+    
+    private func initialaseDatas()
+    {
+        globalManager.productManager.oneProductIsAdded.toggle()
+        initialPrice = ""
+        finalPrice = 0.00
+        discount = 0.00
+        initialPriceInDouble = 0.00
+        showAlert = false
+    }
+    
+    private func checkIfMaxAmountIsHit()->Bool
+    {
+        if maximumAmountInDouble != 0.0 {
+            if totalCart >= maximumAmountInDouble {
+                // une animation pour signaler que le budget max a été ateint
+                return true
+            }
+        }
+        return false
+    }
 }
 
 extension View {
@@ -197,5 +279,6 @@ extension View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice("iPhone 11")
     }
 }
