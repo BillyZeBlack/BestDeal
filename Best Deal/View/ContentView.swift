@@ -157,7 +157,7 @@ struct ContentView: View {
                     }
                 if maximumAmountSet {
                     VStack{
-                        TextField(title, text: $maximumAmount, prompt: Text("Montant maximum"))
+                        TextField(title, text: $maximumAmount, prompt: Text("Budget max !"))
                             .keyboardType(.decimalPad)
                             .modifier(TextFieldClearButton(text: $maximumAmount))
                         Rectangle()
