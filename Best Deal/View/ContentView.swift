@@ -33,6 +33,7 @@ struct ContentView: View {
     var body: some View {
         let discounts: [Discount] = globalManager.discountManager.generateListDiscount()
         let oneProductIsAdded = globalManager.productManager.oneProductIsAdded
+        
         VStack{
             Text("Titre").font(.largeTitle)
             VStack {
@@ -135,7 +136,7 @@ struct ContentView: View {
                 }else {
                     HStack{
                         if maximunAmountisHit {
-                            Text("\(roundeUpToTwoDecimal(value: totalCart)) €")
+                            Text("\(roundeUpToTwoDecimal(value: totalCart)) €")//totalCart
                                 .font(.headline).bold().foregroundColor(.red)
                                 .padding()
                         } else {
@@ -183,7 +184,7 @@ struct ContentView: View {
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded).listRowBackground(Color.white)//$oneProductIsAdded
+                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart)//.listRowBackground(Color.white)//$oneProductIsAdded
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
@@ -198,6 +199,8 @@ struct ContentView: View {
             }
         }
     }
+    
+    // MARK: Privates functions
     
     private func formatDatas(dataInSting: String) -> Double
     {
@@ -217,20 +220,21 @@ struct ContentView: View {
     {
         initialPriceInDouble = formatDatas(dataInSting: initialPrice)
         if initialPriceInDouble != 00.00 {
-            
             applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
             
             let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
-            
             globalManager.productManager.addProductIntoProductsList(product: product)
             
             totalCart = globalManager.productManager.totalChart()
+            
             maximunAmountisHit = checkIfMaxAmountIsHit()
             showAlert = false
+            
             return true
         }else {
             showAlert = true
             alertCase = .initialPriceIsNotValid
+            
             return false
         }
     }
@@ -270,6 +274,7 @@ struct ContentView: View {
     }
 }
 
+// MARK: Extension
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

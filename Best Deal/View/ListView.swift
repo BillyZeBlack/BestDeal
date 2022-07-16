@@ -14,20 +14,32 @@ struct ListView: View {
     
     @State var oneProductIsAdded: Bool
     
-    var body: some View { // gérer la suppression d'un élément //////
+    @Binding var totalCart: Double
+    
+    var body: some View {
+        // gérer la mise à jour du "total" lors de la suppression //////
         List{
-            ForEach(productsList, id:\.id) {product in
+            ForEach(productsList.indices, id:\.self) {product in
                 HStack{
-                    Text("\(roundeUpToTwoDecimal(value: product.initialPrice))€ - \(roundeUpToTwoDecimal(value: product.discount))% ")
+                    Text("\(roundeUpToTwoDecimal(value: productsList[product].initialPrice))€ - \(roundeUpToTwoDecimal(value: productsList[product].discount))% ")
                     Spacer()
-                    Text("\(roundeUpToTwoDecimal(value: product.finalPrice))€")
+                    Text("\(roundeUpToTwoDecimal(value: productsList[product].finalPrice))€")
                     Image(systemName: "tag.fill")
+                }.swipeActions(allowsFullSwipe: false) {
+                    Button(role: .destructive) {
+                        productsList.remove(at: product)
+                        globalManager.productManager.updateList(itemsList: productsList)
+                        totalCart = globalManager.productManager.totalChart()
+                     } label: {
+                         Label("Delete", systemImage: "trash.fill")
+                     }
                 }
-            }.onDelete(perform: globalManager.productManager.removeProductFromProductsList)
-        }.onChange(of: globalManager.productManager.oneProductIsAdded) { _ in
-            productsList = globalManager.productManager.loadList()
             }
+        }.onChange(of: globalManager.productManager.oneProductIsAdded ) { _ in
+                        productsList = globalManager.productManager.loadList()}
     }
+    
+    // MARK: privates function
     
     private func roundeUpToTwoDecimal(value: Double)->String
     {
@@ -41,12 +53,18 @@ struct ListView: View {
         
         return valueRounded
     }
+    
+    private func remove(indexSet: IndexSet)
+    {
+        globalManager.productManager.removeProductFromProductsList(at: indexSet)
+    }
+
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: [], oneProductIsAdded: false)
+            ListView(productsList: [], oneProductIsAdded: false, totalCart: .constant(0.0))
                 .previewInterfaceOrientation(.portrait)
         }
     }

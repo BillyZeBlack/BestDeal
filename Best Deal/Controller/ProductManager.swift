@@ -12,7 +12,8 @@ class ProductManager: ObservableObject {
     
     @Published var productsList = [Product]()
     var oneProductIsAdded = false
-    var listView : ListView!
+    
+    var totalCart = 0.0
     
     func applyDiscountOnInitialPrice(initialPrice: Double, discount: Double)->Double
     {
@@ -21,13 +22,11 @@ class ProductManager: ObservableObject {
     
     func addProductIntoProductsList(product: Product)
     {
-//        objectWillChange.send()
         productsList.append(product)
     }
     
     func removeProductFromProductsList(at offsets: IndexSet)
     {
-//        objectWillChange.send()
         productsList.remove(atOffsets: offsets)
         oneProductIsAdded = true
         productsList = loadList()
@@ -35,19 +34,17 @@ class ProductManager: ObservableObject {
     
     func totalChart()->Double
     {
-        var totalPrice = 0.00
-        
+        totalCart = 0.00
         for item in productsList {
-            totalPrice += item.finalPrice
+            totalCart += item.finalPrice
         }
         
-        return totalPrice
+        return totalCart
     }
     
     func totalDiscount()->Double
     {
         var totalDiscount = 0.00
-        
         for item in productsList {
             totalDiscount += item.initialPrice - item.finalPrice
         }
@@ -58,6 +55,14 @@ class ProductManager: ObservableObject {
     func loadList()->[Product]
     {
         oneProductIsAdded = false
+        print("nombre d\'élément : \(productsList.count)")
         return productsList
+    }
+    
+    func updateList(itemsList: [Product])
+    {
+        productsList = itemsList
+        totalCart = totalChart()
+        print("nombre d\'élément : \(productsList.count)")
     }
 }
