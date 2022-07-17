@@ -65,4 +65,9 @@ class ProductManager: ObservableObject {
         totalCart = totalChart()
         print("nombre d\'élément : \(productsList.count)")
     }
+    
+    func sortProductByCategory()
+    {
+        
+    }
 }
