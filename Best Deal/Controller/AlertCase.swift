@@ -8,5 +8,5 @@
 import Foundation
 
 enum AlertCase {
-    case initialPriceIsEmpty, initialPriceIsNotValid
+    case initialPriceIsEmpty, initialPriceIsNotValid, deleteAllItemsRequired
 }

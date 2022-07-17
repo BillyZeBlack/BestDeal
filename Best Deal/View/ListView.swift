@@ -10,7 +10,8 @@ import SwiftUI
 struct ListView: View {
     var globalManager: GlobalManager!
     
-    @State var productsList: [Product]
+//    @State var productsList: [Product]
+    @Binding var productsList: [Product]
     
     @State var oneProductIsAdded: Bool
     
@@ -64,10 +65,12 @@ struct ListView: View {
     
     private func checkMaxAmount(totalCart: Double, maximumAmountInDouble: Double, maximunAmountisHit: Bool)
     {
-        if totalCart >= maximumAmountInDouble {
-            self.maximunAmountisHit = true
-        } else {
-            self.maximunAmountisHit = false
+        if maximumAmountInDouble > 0 {
+            if totalCart >= maximumAmountInDouble {
+                self.maximunAmountisHit = true
+            } else {
+                self.maximunAmountisHit = false
+            }
         }
     }
 
@@ -76,7 +79,7 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: [], oneProductIsAdded: false, totalCart: .constant(0.0), maximunAmountisHit: .constant(false), maximumAmountInDouble: .constant(0.0))
+            ListView(productsList: .constant([Product(description: "test", initialPrice: 0.0, finalPrice: 0.0, discount: 0.0)]),oneProductIsAdded: false, totalCart: .constant(0.0), maximunAmountisHit: .constant(false), maximumAmountInDouble: .constant(0.0))
                 .previewInterfaceOrientation(.portrait)
         }
     }

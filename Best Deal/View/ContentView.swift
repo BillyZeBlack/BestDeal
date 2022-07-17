@@ -27,6 +27,8 @@ struct ContentView: View {
     @State var showAlert = false
     @State var maximumAmountSet = false
     @State var maximunAmountIsHit = false
+    @State var deleteAllRequired = false
+    @State var showAlertDeleteItems = false
     
     @State var alertCase: AlertCase = .initialPriceIsEmpty
 
@@ -126,6 +128,8 @@ struct ContentView: View {
                         return Alert(title: Text("Erreur"), message: Text("Veuillez vérifier le prix saisi."))
                     case .initialPriceIsEmpty:
                         return Alert(title: Text("Information"), message: Text("Veuillez saisir un prix de départ."))
+                    case .deleteAllItemsRequired: // Corriger ça, car c'est bien deguelasse !!!
+                        return Alert(title: Text(""))
                     }
                 }
             }
@@ -146,8 +150,25 @@ struct ContentView: View {
                         }
                         Image(systemName: "trash.circle.fill")
                             .onTapGesture {
-                            //Supprimer l'ensemble de la liste & l'emplacement de la corbeille
+                                deleteAllRequired = true
+                                showAlertDeleteItems = true
+                                alertCase = .deleteAllItemsRequired
                         }
+                            .alert(isPresented: $showAlertDeleteItems) {
+                                switch alertCase {
+                                    case .initialPriceIsEmpty: // Corriger ça, car c'est bien deguelasse !!!
+                                        return Alert(title: Text(""))
+                                    case .initialPriceIsNotValid: // Corriger ça, car c'est bien deguelasse !!!
+                                        return Alert(title: Text(""))
+                                    case .deleteAllItemsRequired:
+                                        return Alert(title: Text("Information"), message: Text("Veuillez confimer la suppression de l'ensemble de vos achats."), primaryButton: .cancel(Text("Annuler"), action: {
+                                            deleteAllRequired = false
+                                        }), secondaryButton: .default(Text("Confirmer"), action: {
+                                            globalManager.productManager.productsList.removeAll()
+                                            totalCart = globalManager.productManager.totalChart()
+                                        }))
+                                }
+                            }
                     }
                 }
                 Image(systemName: "thermometer")
@@ -184,7 +205,7 @@ struct ContentView: View {
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart, maximunAmountisHit: $maximunAmountIsHit, maximumAmountInDouble: $maximumAmountInDouble)//.listRowBackground(Color.white)//$oneProductIsAdded
+                ListView(globalManager: globalManager, productsList: $globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart, maximunAmountisHit: $maximunAmountIsHit, maximumAmountInDouble: $maximumAmountInDouble)
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
