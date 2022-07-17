@@ -64,12 +64,10 @@ struct ListView: View {
     
     private func checkMaxAmount(totalCart: Double, maximumAmountInDouble: Double, maximunAmountisHit: Bool)
     {
-        if(maximumAmountInDouble > 0){
-            if totalCart >= maximumAmountInDouble {
-                self.maximunAmountisHit = true
-            } else {
-                self.maximunAmountisHit = false
-            }
+        if totalCart >= maximumAmountInDouble {
+            self.maximunAmountisHit = true
+        } else {
+            self.maximunAmountisHit = false
         }
     }
 
