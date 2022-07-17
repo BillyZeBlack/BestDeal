@@ -26,7 +26,7 @@ struct ContentView: View {
     @State var personalDiscountShowed = false
     @State var showAlert = false
     @State var maximumAmountSet = false
-    @State var maximunAmountisHit = false
+    @State var maximunAmountIsHit = false
     
     @State var alertCase: AlertCase = .initialPriceIsEmpty
 
@@ -135,7 +135,7 @@ struct ContentView: View {
                     Text("Total des achats").padding()
                 }else {
                     HStack{
-                        if maximunAmountisHit {
+                        if maximunAmountIsHit {
                             Text("\(roundeUpToTwoDecimal(value: totalCart)) €")//totalCart
                                 .font(.headline).bold().foregroundColor(.red)
                                 .padding()
@@ -172,11 +172,11 @@ struct ContentView: View {
                         }
                     }
                     .padding()
-                    .transition(.slide)
+                    .transition(.scale)
                     .frame(width: 180, height: 100)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
-                            .stroke(.gray, lineWidth: 2)
+                            .stroke(.gray, lineWidth: 4)
                     )
                 }
             }
@@ -184,7 +184,7 @@ struct ContentView: View {
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart)//.listRowBackground(Color.white)//$oneProductIsAdded
+                ListView(globalManager: globalManager, productsList: globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart, maximunAmountisHit: $maximunAmountIsHit, maximumAmountInDouble: $maximumAmountInDouble)//.listRowBackground(Color.white)//$oneProductIsAdded
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
@@ -227,7 +227,7 @@ struct ContentView: View {
             
             totalCart = globalManager.productManager.totalChart()
             
-            maximunAmountisHit = checkIfMaxAmountIsHit()
+            maximunAmountIsHit = checkIfMaxAmountIsHit()
             showAlert = false
             
             return true

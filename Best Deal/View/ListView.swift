@@ -15,7 +15,9 @@ struct ListView: View {
     @State var oneProductIsAdded: Bool
     
     @Binding var totalCart: Double
-    
+    @Binding var maximunAmountisHit: Bool
+    @Binding var maximumAmountInDouble: Double
+        
     var body: some View {
         // gérer la mise à jour du "total" lors de la suppression //////
         List{
@@ -30,6 +32,7 @@ struct ListView: View {
                         productsList.remove(at: product)
                         globalManager.productManager.updateList(itemsList: productsList)
                         totalCart = globalManager.productManager.totalChart()
+                        checkMaxAmount(totalCart: totalCart, maximumAmountInDouble: maximumAmountInDouble, maximunAmountisHit: maximunAmountisHit)
                      } label: {
                          Label("Delete", systemImage: "trash.fill")
                      }
@@ -58,13 +61,24 @@ struct ListView: View {
     {
         globalManager.productManager.removeProductFromProductsList(at: indexSet)
     }
+    
+    private func checkMaxAmount(totalCart: Double, maximumAmountInDouble: Double, maximunAmountisHit: Bool)
+    {
+        if(maximumAmountInDouble > 0){
+            if totalCart >= maximumAmountInDouble {
+                self.maximunAmountisHit = true
+            } else {
+                self.maximunAmountisHit = false
+            }
+        }
+    }
 
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: [], oneProductIsAdded: false, totalCart: .constant(0.0))
+            ListView(productsList: [], oneProductIsAdded: false, totalCart: .constant(0.0), maximunAmountisHit: .constant(false), maximumAmountInDouble: .constant(0.0))
                 .previewInterfaceOrientation(.portrait)
         }
     }
