@@ -79,7 +79,7 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ListView(productsList: .constant([Product(description: "test", initialPrice: 0.0, finalPrice: 0.0, discount: 0.0)]),oneProductIsAdded: false, totalCart: .constant(0.0), maximunAmountisHit: .constant(false), maximumAmountInDouble: .constant(0.0))
+            ListView(productsList: .constant([Product(description: "test", initialPrice: 0.0, finalPrice: 0.0, discount: 0.0, category: nil)]),oneProductIsAdded: false, totalCart: .constant(0.0), maximunAmountisHit: .constant(false), maximumAmountInDouble: .constant(0.0))
                 .previewInterfaceOrientation(.portrait)
         }
     }

@@ -29,6 +29,7 @@ struct ContentView: View {
     @State var maximunAmountIsHit = false
     @State var deleteAllRequired = false
     @State var showAlertDeleteItems = false
+    @State var showlistCartView = false
     
     @State var alertCase: AlertCase = .initialPriceIsEmpty
 
@@ -212,8 +213,11 @@ struct ContentView: View {
                     }
                     
                     Text("\(roundeUpToTwoDecimal(value: globalManager.productManager.totalDiscount())) €")
-                    Image(systemName: "cart.fill").onTapGesture {
-                        //Aller vers la liste des achats classés par catégories
+//                    Image(systemName: "cart.fill").onTapGesture {
+//                        //Aller vers la liste des achats classés par catégories
+//                    }
+                    NavigationLink(destination: ListViewByCategoryView(productList: $globalManager.productManager.productsList)){
+                        Image(systemName: "cart.fill")
                     }
                 }
                 
@@ -243,7 +247,7 @@ struct ContentView: View {
         if initialPriceInDouble != 00.00 {
             applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
             
-            let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount)
+            let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount, category: .Electroménager)
             globalManager.productManager.addProductIntoProductsList(product: product)
             
             totalCart = globalManager.productManager.totalChart()
@@ -292,6 +296,12 @@ struct ContentView: View {
             }
         }
         return false
+    }
+    
+    private func test()
+    {
+        showlistCartView = true
+        print("valeur bool : \(showlistCartView.description)")
     }
 }
 

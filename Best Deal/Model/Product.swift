@@ -13,12 +13,14 @@ class Product: Identifiable {
     var initialPrice: Double
     var finalPrice: Double
     var discount: Double
+    var category: CategoryEnum?
     
-    init(description: String?, initialPrice: Double, finalPrice: Double, discount: Double) {
+    init(description: String?, initialPrice: Double, finalPrice: Double, discount: Double, category: CategoryEnum?) {
         self.description = description
         self.initialPrice = initialPrice
         self.finalPrice = finalPrice
         self.discount = discount
+        self.category = category
     }
 }
 

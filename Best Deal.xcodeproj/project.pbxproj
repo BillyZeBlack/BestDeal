@@ -21,6 +21,7 @@
 		9F32576B283AB0430040B2C7 /* DiscountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32576A283AB0430040B2C7 /* DiscountManager.swift */; };
 		9F38F75B2884709C005BE176 /* ListViewByCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F38F75A2884709C005BE176 /* ListViewByCategoryView.swift */; };
 		9F3FDF88283CCE290060C217 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FDF87283CCE290060C217 /* ListView.swift */; };
+		9F74968F288BBE1100FDA308 /* CategoryEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F74968E288BBE1100FDA308 /* CategoryEnum.swift */; };
 		9F82751A287DE8AC00CE348F /* AlertCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F827519287DE8AC00CE348F /* AlertCase.swift */; };
 		9F82751C287E975500CE348F /* TextFieldClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F82751B287E975500CE348F /* TextFieldClearButton.swift */; };
 		9FCABFF8283941EE00E6CECD /* DiscountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCABFF7283941EE00E6CECD /* DiscountView.swift */; };
@@ -42,6 +43,7 @@
 		9F32576A283AB0430040B2C7 /* DiscountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountManager.swift; sourceTree = "<group>"; };
 		9F38F75A2884709C005BE176 /* ListViewByCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewByCategoryView.swift; sourceTree = "<group>"; };
 		9F3FDF87283CCE290060C217 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		9F74968E288BBE1100FDA308 /* CategoryEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEnum.swift; sourceTree = "<group>"; };
 		9F827519287DE8AC00CE348F /* AlertCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCase.swift; sourceTree = "<group>"; };
 		9F82751B287E975500CE348F /* TextFieldClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldClearButton.swift; sourceTree = "<group>"; };
 		9FCABFF7283941EE00E6CECD /* DiscountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				9F1FEBCB2837EF77004AB6EB /* Product.swift */,
 				9F1FEBD62837F68E004AB6EB /* Category.swift */,
 				9F1FEBDD283844C7004AB6EB /* Discount.swift */,
+				9F74968E288BBE1100FDA308 /* CategoryEnum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F74968F288BBE1100FDA308 /* CategoryEnum.swift in Sources */,
 				9F1FEBBF2837EF17004AB6EB /* ContentView.swift in Sources */,
 				9F32576B283AB0430040B2C7 /* DiscountManager.swift in Sources */,
 				9F1FEBD92837F6D8004AB6EB /* CategoryManager.swift in Sources */,

@@ -11,7 +11,9 @@ import SwiftUI
 struct Best_DealApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView{
+                ContentView()
+            }
         }
     }
 }
