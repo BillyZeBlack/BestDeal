@@ -139,7 +139,7 @@ struct ContentView: View {
                     Text("Total des achats").padding()
                 }else {
                     HStack{
-                        if maximunAmountIsHit {
+                        if maximunAmountIsHit && maximumAmountInDouble != 0.0 {
                             Text("\(roundeUpToTwoDecimal(value: totalCart)) €")//totalCart
                                 .font(.headline).bold().foregroundColor(.red)
                                 .padding()
