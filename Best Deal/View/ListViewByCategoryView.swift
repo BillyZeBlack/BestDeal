@@ -87,7 +87,7 @@ struct ListViewByCategoryView: View {
                         }
                         Section {
                             ForEach(productList){item in
-                                if(item.category == .Electroménager){
+                                if(item.category == .Electromenager){
                                     Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
@@ -117,7 +117,7 @@ struct ListViewByCategoryView: View {
                         }
                         Section {
                             ForEach(productList){item in
-                                if(item.category == .Meuble_et_déco){
+                                if(item.category == .Meuble_et_deco){
                                     Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
@@ -159,7 +159,7 @@ struct ListViewByCategoryView: View {
                         }
                         Section {
                             ForEach(productList){item in
-                                if(item.category == .Téléphonie){
+                                if(item.category == .Telephonie){
                                     Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
@@ -203,12 +203,13 @@ struct ListViewByCategoryView: View {
                 }
             }
         }
-        
-        .navigationTitle(Text("TITRE"))
+        .navigationTitle(Text("Détails"))
         .onAppear {
             calculTotalSection(products: productList)
         }
     }
+    
+    // MARK: Privates functions
     
     private func calculTotalSection(products: [Product])
     {
@@ -222,17 +223,17 @@ struct ListViewByCategoryView: View {
                         totalM += item.finalPrice
                 case .Mode:
                         totalMd += item.finalPrice
-                case .Electroménager:
+                case .Electromenager  :
                         totalE += item.finalPrice
                 case .Bricolage:
                         totalB += item.finalPrice
-                case .Meuble_et_déco:
+            case .Meuble_et_deco:
                     totalMdc += item.finalPrice
                 case .Jardin_et_maison:
                         totalJm += item.finalPrice
                 case .Informatique:
                         totalI += item.finalPrice
-                case .Téléphonie:
+            case .Telephonie:
                         totalT += item.finalPrice
                 case .Jeux_vidéo:
                         totalJv += item.finalPrice

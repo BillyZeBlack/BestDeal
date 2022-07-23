@@ -38,7 +38,7 @@ struct ContentView: View {
         let oneProductIsAdded = globalManager.productManager.oneProductIsAdded
         
         VStack{
-            Text("Titre").font(.largeTitle)
+//            Text("Titre").font(.largeTitle)
             VStack {
                 TextField(title, text: $initialPrice, prompt: Text("Entrez le prix initial"))
                     .modifier(TextFieldClearButton(text: $initialPrice))
@@ -205,7 +205,7 @@ struct ContentView: View {
             Spacer()
             
             VStack{
-                ListView(globalManager: globalManager, productsList: $globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart, maximunAmountisHit: $maximunAmountIsHit, maximumAmountInDouble: $maximumAmountInDouble)
+                ListView(globalManager: globalManager, productsList: $globalManager.productManager.productsList, oneProductIsAdded: oneProductIsAdded, totalCart: $totalCart, maximunAmountisHit: $maximunAmountIsHit, maximumAmountInDouble: $maximumAmountInDouble, rowSelected: 0)
                 HStack{
                     if 0 == globalManager.productManager.totalDiscount() {
                         Text("Economies réalisées")
@@ -244,7 +244,7 @@ struct ContentView: View {
         if initialPriceInDouble != 00.00 {
             applyDiscountOnPrice(initialPrice: initialPriceInDouble, discount: discount)
             
-            let product = Product(description: "test", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount, category: .Electroménager)
+            let product = Product(description: "", initialPrice: initialPriceInDouble, finalPrice: finalPrice, discount: discount, category: nil)
             globalManager.productManager.addProductIntoProductsList(product: product)
             
             totalCart = globalManager.productManager.totalChart()

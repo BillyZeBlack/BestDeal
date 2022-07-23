@@ -55,7 +55,6 @@ class ProductManager: ObservableObject {
     func loadList()->[Product]
     {
         oneProductIsAdded = false
-        print("nombre d\'élément : \(productsList.count)")
         return productsList
     }
     
@@ -63,6 +62,5 @@ class ProductManager: ObservableObject {
     {
         productsList = itemsList
         totalCart = totalChart()
-        print("nombre d\'élément : \(productsList.count)")
     }
 }

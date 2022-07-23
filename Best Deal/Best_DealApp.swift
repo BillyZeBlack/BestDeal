@@ -12,7 +12,7 @@ struct Best_DealApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView{
-                ContentView()
+                ContentView().navigationBarTitle(Text("Réduc' Faciles"))
             }
         }
     }
