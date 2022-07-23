@@ -7,6 +7,7 @@
 
 import Foundation
 
+// A déplacer dans Model
 enum AlertCase {
     case initialPriceIsEmpty, initialPriceIsNotValid, deleteAllItemsRequired
 }

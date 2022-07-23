@@ -32,136 +32,172 @@ struct ListViewByCategoryView: View {
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Divers || item.category == nil){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Divers")
                         } footer: {
-                            Text("Total : \(totalD)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalD)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Nourriture){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Nouriture")
                         } footer: {
-                            Text("Total : \(totalN)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalN)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Multimédia){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Multimédia")
                         } footer: {
-                            Text("Total : \(totalM)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalM)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Mode){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Mode")
                         } footer: {
-                            Text("Total : \(totalMd)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalMd)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Electroménager){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Electroménager")
                         } footer: {
-                            Text("Total : \(totalE)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalE)) €")
+                            }
                         }
                     }
                     Group{
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Bricolage){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Bricolage")
                         } footer: {
-                            Text("Total : \(totalB)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalB)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Meuble_et_déco){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Meuble et déco.")
                         } footer: {
-                            Text("Total : \(totalMdc)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalMdc)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Jardin_et_maison){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Jardin et maison")
                         } footer: {
-                            Text("Total : \(totalJm)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalJm)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Informatique){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Informatique")
                         } footer: {
-                            Text("Total : \(totalI)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalI)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Téléphonie){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Téléphonie")
                         } footer: {
-                            Text("Total : \(totalT)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalT)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Jeux_vidéo){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Jeux vidéo")
                         } footer: {
-                            Text("Total : \(totalJv)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalJv)) €")
+                            }
                         }
                         Section {
                             ForEach(productList){item in
                                 if(item.category == .Sport){
-                                    Text("\(item.finalPrice)€")
+                                    Text("\(String(format: "%.2f", item.finalPrice)) €")
                                 }
                             }
                         } header: {
                             Text("Sport")
                         } footer: {
-                            Text("Total : \(totalS)")
+                            HStack {
+                                Spacer()
+                                Text("\(String(format: "%.2f", totalS)) €")
+                            }
                         }
                     }
                 }
@@ -172,11 +208,6 @@ struct ListViewByCategoryView: View {
         .onAppear {
             calculTotalSection(products: productList)
         }
-    }
-    
-    private func getAllProducts()
-    {
-        productList = globalManager.productManager.productsList
     }
     
     private func calculTotalSection(products: [Product])

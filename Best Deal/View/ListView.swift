@@ -10,17 +10,14 @@ import SwiftUI
 struct ListView: View {
     var globalManager: GlobalManager!
     
-//    @State var productsList: [Product]
     @Binding var productsList: [Product]
     
     @State var oneProductIsAdded: Bool
-    
     @Binding var totalCart: Double
     @Binding var maximunAmountisHit: Bool
     @Binding var maximumAmountInDouble: Double
         
     var body: some View {
-        // gérer la mise à jour du "total" lors de la suppression //////
         List{
             ForEach(productsList.indices, id:\.self) {product in
                 HStack{

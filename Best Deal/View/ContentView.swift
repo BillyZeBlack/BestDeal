@@ -107,7 +107,6 @@ struct ContentView: View {
                     }else {
                         Text("\(roundeUpToTwoDecimal(value: finalPrice))€").font(.title3).padding()
                     }
-                   
                 }
                 
                 HStack{
@@ -213,9 +212,7 @@ struct ContentView: View {
                     }
                     
                     Text("\(roundeUpToTwoDecimal(value: globalManager.productManager.totalDiscount())) €")
-//                    Image(systemName: "cart.fill").onTapGesture {
-//                        //Aller vers la liste des achats classés par catégories
-//                    }
+                    
                     NavigationLink(destination: ListViewByCategoryView(productList: $globalManager.productManager.productsList)){
                         Image(systemName: "cart.fill")
                     }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// A voir si on l'utilise
 struct Category {
     var name: String
     var imageName: String
